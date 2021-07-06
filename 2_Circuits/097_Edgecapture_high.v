@@ -5,20 +5,13 @@ module top_module (
     output [31:0] out
 );
     
-    reg [31:0] old, result, tmp;
-    initial tmp = 0;
-    always @(posedge clk) begin
-        if(reset) begin
-            old = in;
-            result = 0;
-            out = 0;
-        end
-        else begin
-            tmp = (in ^ old) & old;
-            result = result | tmp;
-            out = result;
-            old = in;
-        end
+   reg [31:0]in_r;
+    always@(posedge clk)begin
+        in_r<=in;
+    	if(reset)
+            out<=0;
+        else
+            out<=(~in&in_r)|out;
     end
 
 endmodule
